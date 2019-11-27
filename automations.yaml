@@ -1,0 +1,68 @@
+- alias: Bus Reminder
+  trigger:
+    - platform: time
+      at: 08:28
+  condition:
+    - condition: time
+      weekday:
+        - mon
+        - tue
+        - thu
+        - fri
+  action:
+    - service: script.bus_announcement
+
+- alias: Bus Reminder Late
+  trigger:
+    - platform: time
+      at: 09:28
+  condition:
+    - condition: time
+      weekday:
+        - wed
+  action:
+    - service: script.bus_announcement
+
+- alias: Patio Lights ON at Night
+  trigger:
+    - platform: numeric_state
+      entity_id: sun.sun
+      below: "-5"
+      value_template: "{{ state_attr('sun.sun', 'elevation') }}"
+  action:
+    service: switch.turn_on
+    entity_id: switch.tantan_3
+
+- alias: Christmas Lights ON at Night
+  trigger:
+    - below: "1.5"
+      entity_id: sun.sun
+      platform: numeric_state
+      value_template: "{{ state_attr('sun.sun', 'elevation') }}"
+  action:
+    - entity_id: switch.tp_plug
+      service: switch.turn_on
+    - entity_id: switch.ikea_of_sweden_tradfri_control_outlet_fe336a67_1
+      service: switch.turn_on
+
+- alias: Turn Stuff OFF Later
+  trigger:
+    - platform: time
+      at: 01:30
+  action:
+    - service: switch.turn_off
+      entity_id: switch.tantan_3
+    - service: switch.turn_off
+      entity_id: switch.ikea_of_sweden_tradfri_control_outlet_fe336a67_1
+    - service: switch.turn_off
+      entity_id: switch.tp_plug
+
+- alias: Put the trash out
+  trigger:
+    - platform: time
+      at: "20:30"
+  condition:
+    - condition: time
+      weekday: mon
+  action:
+    service: script.trash_announcement

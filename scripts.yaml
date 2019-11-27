@@ -1,0 +1,23 @@
+bus_announcement:
+  alias: Bus Announcement
+  sequence:
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.kitchen_speaker
+        volume_level: 0.75
+    - service: tts.google_translate_say
+      data:
+        entity_id: media_player.kitchen_speaker
+        message: Warning. Warning. Warning. The bus will be here in 10 minutes.
+
+trash_announcement:
+  sequence:
+    - service: media_player.volume_set
+      data:
+        entity_id: media_player.kitchen_speaker
+        volume_level: 0.6
+    - service: tts.google_translate_say
+      data:
+        entity_id: media_player.kitchen_speaker
+        message: Remember to put the trash bins out by the curb.
+
